@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#btn-replay').addEventListener('click', () => { window.location.reload(); });
 
   initTimeline();
+  initPhotoViewer();
 });
 
 // === Screen Navigation ===
@@ -59,16 +60,17 @@ function loadRound() {
   const round = state.rounds[state.currentRound];
 
   state.guessLatLng = null;
-  state.guessYear = 1900;
+  state.guessYear = 2000;
   state.mapPlaced = false;
   state.yearPicked = false;
   updateSubmitBtn();
+  resetPhotoViewer();
 
   $('#round-indicator').textContent = `Round ${state.currentRound + 1}/5`;
   $('#round-score').textContent = `Score: ${state.totalScore}`;
   $('#round-photo').src = round.image;
 
-  setTimelineYear(1900);
+  setTimelineYear(2000);
 
   if (gameMap) {
     gameMap.remove();
@@ -79,8 +81,8 @@ function loadRound() {
     zoomControl: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
   }).addTo(gameMap);
 
   guessMarker = null;
@@ -174,8 +176,8 @@ function showResult(result) {
   setTimeout(() => {
     resultMap = L.map('result-map', { zoomControl: true });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
     }).addTo(resultMap);
 
     L.marker([result.guessLatLng.lat, result.guessLatLng.lng], {
@@ -188,7 +190,7 @@ function showResult(result) {
 
     L.polyline(
       [[result.guessLatLng.lat, result.guessLatLng.lng], [result.round.lat, result.round.lng]],
-      { color: '#ffffff40', dashArray: '8, 8', weight: 2 }
+      { color: 'rgba(201, 168, 76, 0.4)', dashArray: '8, 8', weight: 2 }
     ).addTo(resultMap);
 
     const bounds = L.latLngBounds(
@@ -222,6 +224,14 @@ function showSummary() {
   const tier = getTier(state.totalScore);
   $('#summary-tier').textContent = tier;
 
+  const fillEl = document.getElementById('score-bar-fill');
+  if (fillEl) {
+    fillEl.style.width = '0%';
+    setTimeout(() => {
+      fillEl.style.width = (state.totalScore / 10000 * 100) + '%';
+    }, 300);
+  }
+
   const tbody = $('#summary-table tbody');
   tbody.innerHTML = '';
   state.results.forEach((r, i) => {
@@ -239,12 +249,7 @@ function showSummary() {
 
 // === Timeline ===
 const SEGMENTS = [
-  [-3000, -500, 0.10],
-  [-500, 500, 0.10],
-  [500, 1500, 0.15],
-  [1500, 1800, 0.20],
-  [1800, 1950, 0.25],
-  [1950, 2025, 0.20]
+  [1970, 2025, 1.0]
 ];
 
 function yearToPercent(year) {
@@ -274,7 +279,6 @@ function percentToYear(pct) {
 }
 
 function formatYear(year) {
-  if (year < 0) return `${Math.abs(year)} av. J-C`;
   return `${year}`;
 }
 
@@ -358,4 +362,151 @@ function animateNumber(el, from, to, duration) {
     if (progress < 1) requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
+}
+
+// === Photo Viewer (Pan & Zoom like Google Maps) ===
+const photo$ = { scale: 1, tx: 0, ty: 0, dragging: false, lx: 0, ly: 0 };
+
+function initPhotoViewer() {
+  const panel = $('.photo-panel');
+  if (!panel) return;
+
+  // Wheel zoom (zoom vers le curseur)
+  panel.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const img = $('#round-photo');
+    const rect = img.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const mx = e.clientX - cx;
+    const my = e.clientY - cy;
+
+    const old = photo$.scale;
+    const factor = e.deltaY < 0 ? 1.18 : 1 / 1.18;
+    const ns = Math.max(1, Math.min(10, old * factor));
+    const r = ns / old;
+
+    photo$.tx = mx - (mx - photo$.tx) * r;
+    photo$.ty = my - (my - photo$.ty) * r;
+    photo$.scale = ns;
+
+    if (ns === 1) { photo$.tx = 0; photo$.ty = 0; }
+    constrainPhoto(img);
+    applyPhoto(img, false);
+  }, { passive: false });
+
+  // Mouse drag
+  panel.addEventListener('mousedown', (e) => {
+    if (photo$.scale <= 1) return;
+    photo$.dragging = true;
+    photo$.lx = e.clientX;
+    photo$.ly = e.clientY;
+    panel.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!photo$.dragging) return;
+    photo$.tx += e.clientX - photo$.lx;
+    photo$.ty += e.clientY - photo$.ly;
+    photo$.lx = e.clientX;
+    photo$.ly = e.clientY;
+    constrainPhoto($('#round-photo'));
+    applyPhoto($('#round-photo'), true);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!photo$.dragging) return;
+    photo$.dragging = false;
+    const p = $('.photo-panel');
+    if (p) p.style.cursor = photo$.scale > 1 ? 'grab' : '';
+  });
+
+  // Double-click : zoom x3 ou reset
+  panel.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    const img = $('#round-photo');
+    if (photo$.scale > 1) {
+      photo$.scale = 1; photo$.tx = 0; photo$.ty = 0;
+    } else {
+      const rect = img.getBoundingClientRect();
+      const mx = e.clientX - (rect.left + rect.width / 2);
+      const my = e.clientY - (rect.top + rect.height / 2);
+      const ns = 3;
+      const r = ns / photo$.scale;
+      photo$.tx = mx - (mx - photo$.tx) * r;
+      photo$.ty = my - (my - photo$.ty) * r;
+      photo$.scale = ns;
+      constrainPhoto(img);
+    }
+    applyPhoto(img, false);
+    panel.style.cursor = photo$.scale > 1 ? 'grab' : '';
+  });
+
+  // Touch: pinch-to-zoom + drag
+  let lastDist = 0, lastTx = 0, lastTy = 0, touching = false;
+
+  panel.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1 && photo$.scale > 1) {
+      touching = true;
+      lastTx = e.touches[0].clientX;
+      lastTy = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      touching = false;
+      lastDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: true });
+
+  panel.addEventListener('touchmove', (e) => {
+    const img = $('#round-photo');
+    if (e.touches.length === 1 && touching) {
+      e.preventDefault();
+      photo$.tx += e.touches[0].clientX - lastTx;
+      photo$.ty += e.touches[0].clientY - lastTy;
+      lastTx = e.touches[0].clientX;
+      lastTy = e.touches[0].clientY;
+      constrainPhoto(img);
+      applyPhoto(img, true);
+    } else if (e.touches.length === 2) {
+      e.preventDefault();
+      const d = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      photo$.scale = Math.max(1, Math.min(10, photo$.scale * (d / lastDist)));
+      if (photo$.scale === 1) { photo$.tx = 0; photo$.ty = 0; }
+      constrainPhoto(img);
+      applyPhoto(img, true);
+      lastDist = d;
+    }
+  }, { passive: false });
+
+  panel.addEventListener('touchend', () => { touching = false; });
+}
+
+function constrainPhoto(img) {
+  if (!img || photo$.scale <= 1) return;
+  const maxX = (img.offsetWidth * (photo$.scale - 1)) / 2;
+  const maxY = (img.offsetHeight * (photo$.scale - 1)) / 2;
+  photo$.tx = Math.max(-maxX, Math.min(maxX, photo$.tx));
+  photo$.ty = Math.max(-maxY, Math.min(maxY, photo$.ty));
+}
+
+function applyPhoto(img, instant) {
+  if (!img) return;
+  img.style.transition = instant ? 'none' : 'transform 0.2s ease-out';
+  img.style.transform = `translate(${photo$.tx}px, ${photo$.ty}px) scale(${photo$.scale})`;
+  const p = $('.photo-panel');
+  if (p && !photo$.dragging) p.style.cursor = photo$.scale > 1 ? 'grab' : '';
+}
+
+function resetPhotoViewer() {
+  photo$.scale = 1; photo$.tx = 0; photo$.ty = 0;
+  const img = $('#round-photo');
+  if (img) { img.style.transition = 'none'; img.style.transform = ''; }
+  const p = $('.photo-panel');
+  if (p) p.style.cursor = '';
 }

@@ -148,6 +148,8 @@ $roundsJson = json_encode($gameRounds, JSON_UNESCAPED_UNICODE);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TimeGuessr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -156,23 +158,33 @@ $roundsJson = json_encode($gameRounds, JSON_UNESCAPED_UNICODE);
   <!-- Ecran Start -->
   <div id="screen-start" class="screen active">
     <div class="start-container">
+      <div class="deco-row">
+        <div class="deco-line"></div>
+        <span class="deco-diamond">&#9670;</span>
+        <div class="deco-line"></div>
+      </div>
       <h1 class="title">Time<span class="accent">Guessr</span></h1>
       <p class="subtitle">Devinez le lieu et l'époque de photos historiques</p>
       <div class="rules">
         <div class="rule-item">
           <span class="rule-icon">5</span>
-          <span>rounds par partie</span>
+          <span class="rule-label">rounds par partie</span>
         </div>
         <div class="rule-item">
           <span class="rule-icon">10K</span>
-          <span>points maximum</span>
+          <span class="rule-label">points maximum</span>
         </div>
         <div class="rule-item">
           <span class="rule-icon">&oplus;</span>
-          <span>Lieu + Date à deviner</span>
+          <span class="rule-label">Lieu + Date</span>
         </div>
       </div>
       <button id="btn-play" class="btn-primary">Jouer</button>
+      <div class="deco-row">
+        <div class="deco-line"></div>
+        <span class="deco-diamond">&#9670;</span>
+        <div class="deco-line"></div>
+      </div>
     </div>
   </div>
 
@@ -185,22 +197,22 @@ $roundsJson = json_encode($gameRounds, JSON_UNESCAPED_UNICODE);
     <div class="round-layout">
       <div class="photo-panel">
         <img id="round-photo" class="round-photo" src="" alt="Photo historique">
+        <div class="photo-vignette"></div>
       </div>
       <div class="controls-panel">
         <div id="map" class="map-container"></div>
         <div class="timeline-section">
           <div class="timeline-labels">
-            <span>3000 av. J-C</span>
-            <span>500 av. J-C</span>
-            <span>500</span>
-            <span>1500</span>
-            <span>1800</span>
-            <span>1950</span>
+            <span>1970</span>
+            <span>1980</span>
+            <span>1990</span>
+            <span>2000</span>
+            <span>2010</span>
             <span>2025</span>
           </div>
           <div id="timeline" class="timeline-track">
-            <div id="timeline-thumb" class="timeline-thumb"></div>
             <div id="timeline-fill" class="timeline-fill"></div>
+            <div id="timeline-thumb" class="timeline-thumb"></div>
           </div>
           <div id="timeline-tooltip" class="timeline-tooltip">1900</div>
         </div>
@@ -229,8 +241,8 @@ $roundsJson = json_encode($gameRounds, JSON_UNESCAPED_UNICODE);
             <span id="result-years" class="stat-value">0 ans</span>
             <span id="result-date-pts" class="stat-pts">+0 pts</span>
           </div>
-          <div class="stat-card stat-card-total">
-            <span class="stat-label">Total</span>
+          <div class="stat-card stat-total">
+            <span class="stat-label">Total round</span>
             <span id="result-total" class="stat-value accent">0</span>
             <span class="stat-pts">/ 2 000 pts</span>
           </div>
@@ -243,9 +255,19 @@ $roundsJson = json_encode($gameRounds, JSON_UNESCAPED_UNICODE);
   <!-- Ecran Summary -->
   <div id="screen-summary" class="screen">
     <div class="summary-container">
-      <h2 class="summary-title">Partie terminée !</h2>
-      <div id="summary-score" class="summary-score">0</div>
-      <div class="summary-max">/ 10 000</div>
+      <div class="deco-row">
+        <div class="deco-line"></div>
+        <span class="deco-diamond">&#9670;</span>
+        <div class="deco-line"></div>
+      </div>
+      <h2 class="summary-title">Partie terminée</h2>
+      <div class="score-display">
+        <div id="summary-score" class="summary-score">0</div>
+        <div class="summary-max">/ 10 000</div>
+      </div>
+      <div class="score-bar">
+        <div id="score-bar-fill" class="score-bar-fill"></div>
+      </div>
       <div id="summary-tier" class="summary-tier"></div>
       <table id="summary-table" class="summary-table">
         <thead>
