@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "title": "Chute du Mur de Berlin",
+    "description": "Allemands de l'Est et de l'Ouest réunis devant la porte de Brandebourg lors de la chute du Mur en novembre 1989.",
+    "year": 1989,
+    "lat": 52.5163,
+    "lng": 13.3777,
+    "image": "images/01.jpg",
+    "category": "evenements"
+  },
+  {
+    "id": 2,
+    "title": "Éruption du Mont Saint Helens",
+    "description": "L'éruption cataclysmique du Mont Saint Helens dans l'État de Washington le 18 mai 1980.",
+    "year": 1980,
+    "lat": 46.1914,
+    "lng": -122.1956,
+    "image": "images/02.jpg",
+    "category": "evenements"
+  },
+  {
+    "id": 3,
+    "title": "Ville fantôme de Pripyat",
+    "description": "La ville de Pripyat, évacuée après la catastrophe nucléaire de Tchernobyl en 1986, photographiée des années plus tard.",
+    "year": 2011,
+    "lat": 51.4045,
+    "lng": 30.0542,
+    "image": "images/03.jpg",
+    "category": "evenements"
+  },
+  {
+    "id": 4,
+    "title": "Acqua Alta à Venise",
+    "description": "La place Saint-Marc à Venise inondée lors d'un épisode d'acqua alta.",
+    "year": 2004,
+    "lat": 45.4341,
+    "lng": 12.3388,
+    "image": "images/04.jpg",
+    "category": "evenements"
+  },
+  {
+    "id": 5,
+    "title": "Rues de La Havane",
+    "description": "Une rue typique de La Havane, Cuba, avec ses bâtiments colorés et ses voitures vintage.",
+    "year": 2010,
+    "lat": 23.1136,
+    "lng": -82.3666,
+    "image": "images/05.jpg",
+    "category": "villes"
+  },
+  {
+    "id": 6,
+    "title": "Place Rouge, Moscou",
+    "description": "Vue panoramique de la Place Rouge à Moscou avec le Kremlin et la cathédrale Saint-Basile.",
+    "year": 2020,
+    "lat": 55.7539,
+    "lng": 37.6208,
+    "image": "images/06.jpg",
+    "category": "monuments"
+  },
+  {
+    "id": 7,
+    "title": "Carrefour de Shibuya, Tokyo",
+    "description": "Le célèbre carrefour de Shibuya à Tokyo, l'un des passages piétons les plus fréquentés au monde.",
+    "year": 2018,
+    "lat": 35.6595,
+    "lng": 139.7004,
+    "image": "images/07.jpg",
+    "category": "villes"
+  },
+  {
+    "id": 8,
+    "title": "Times Square, New York",
+    "description": "Times Square à Manhattan, avec ses écrans géants et ses enseignes lumineuses emblématiques.",
+    "year": 2012,
+    "lat": 40.758,
+    "lng": -73.9855,
+    "image": "images/08.jpg",
+    "category": "villes"
+  },
+  {
+    "id": 9,
+    "title": "Panorama d'Istanbul",
+    "description": "Vue panoramique d'Istanbul avec ses mosquées et le Bosphore.",
+    "year": 2015,
+    "lat": 41.0082,
+    "lng": 28.9784,
+    "image": "images/09.jpg",
+    "category": "villes"
+  },
+  {
+    "id": 10,
+    "title": "Christ Rédempteur, Rio de Janeiro",
+    "description": "La statue du Christ Rédempteur dominant la baie de Rio de Janeiro depuis le sommet du Corcovado.",
+    "year": 2014,
+    "lat": -22.9519,
+    "lng": -43.2105,
+    "image": "images/10.jpg",
+    "category": "monuments"
+  },
+  {
+    "id": 11,
+    "title": "Burj Khalifa, Dubaï",
+    "description": "Le Burj Khalifa à Dubaï au coucher du soleil, plus haute tour du monde avec ses 828 mètres.",
+    "year": 2015,
+    "lat": 25.1972,
+    "lng": 55.2744,
+    "image": "images/11.jpg",
+    "category": "monuments"
+  },
+  {
+    "id": 12,
+    "title": "Pyramides et Sphinx de Gizeh",
+    "description": "Le Sphinx et les pyramides de Gizeh, aux portes du Caire, monuments millénaires de l'Égypte antique.",
+    "year": 2008,
+    "lat": 29.9773,
+    "lng": 31.1325,
+    "image": "images/12.jpg",
+    "category": "monuments"
+  },
+  {
+    "id": 13,
+    "title": "Jemaa el-Fna, Marrakech",
+    "description": "La célèbre place Jemaa el-Fna à Marrakech de nuit, avec ses étals et ses animations.",
+    "year": 2012,
+    "lat": 31.6258,
+    "lng": -7.9891,
+    "image": "images/13.jpg",
+    "category": "villes"
+  },
+  {
+    "id": 14,
+    "title": "Capitole de La Havane",
+    "description": "Le Capitole national de La Havane avec des voitures américaines classiques.",
+    "year": 2015,
+    "lat": 23.1353,
+    "lng": -82.3596,
+    "image": "images/14.jpg",
+    "category": "monuments"
+  },
+  {
+    "id": 15,
+    "title": "Marina Bay, Singapour",
+    "description": "La skyline de Marina Bay à Singapour au crépuscule, avec le Marina Bay Sands et les gratte-ciels illuminés.",
+    "year": 2019,
+    "lat": 1.2838,
+    "lng": 103.8591,
+    "image": "images/15.jpg",
+    "category": "villes"
+  }
+]
