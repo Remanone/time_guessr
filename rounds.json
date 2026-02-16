@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "title": "Tour Eiffel en construction",
+    "description": "La Tour Eiffel photographiée pendant sa construction pour l'Exposition universelle de 1889 à Paris.",
+    "year": 1889,
+    "lat": 48.8584,
+    "lng": 2.2945,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tour_Eiffel_et_Champ-de-Mars%2C_Exposition_universelle%2C_1889.jpg/800px-Tour_Eiffel_et_Champ-de-Mars%2C_Exposition_universelle%2C_1889.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Pyramides de Gizeh",
+    "description": "Les pyramides de Gizeh photographiées en 1893, avec des chameaux et des voyageurs au premier plan.",
+    "year": 1893,
+    "lat": 29.9792,
+    "lng": 31.1342,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Giza_pyramid_complex_%28edited%29.jpg/800px-Giza_pyramid_complex_%28edited%29.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Colisée de Rome",
+    "description": "Le Colisée de Rome photographié au XIXe siècle, montrant l'état de conservation de l'amphithéâtre antique.",
+    "year": 1870,
+    "lat": 41.8902,
+    "lng": 12.4922,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg/800px-Colosseum_in_Rome-April_2007-1-_copie_2B.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Empire State Building en construction",
+    "description": "L'Empire State Building pendant sa construction à New York, un exploit d'ingénierie de la Grande Dépression.",
+    "year": 1931,
+    "lat": 40.7484,
+    "lng": -73.9857,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Empire_State_Building_%28aerial_view%29.jpg/800px-Empire_State_Building_%28aerial_view%29.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Taj Mahal",
+    "description": "Le Taj Mahal à Agra, Inde. Ce mausolée de marbre blanc fut construit par l'empereur moghol Shah Jahan.",
+    "year": 1910,
+    "lat": 27.1751,
+    "lng": 78.0421,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Taj_Mahal%2C_Agra%2C_India_edit3.jpg/800px-Taj_Mahal%2C_Agra%2C_India_edit3.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Nagasaki après la bombe atomique",
+    "description": "La ville de Nagasaki dévastée après le bombardement atomique du 9 août 1945, marquant la fin de la Seconde Guerre mondiale.",
+    "year": 1945,
+    "lat": 32.7734,
+    "lng": 129.8728,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Nagasakibomb.jpg/800px-Nagasakibomb.jpg"
+  },
+  {
+    "id": 7,
+    "title": "Golden Gate Bridge",
+    "description": "Le Golden Gate Bridge de San Francisco peu après son ouverture, devenu l'un des ponts les plus emblématiques du monde.",
+    "year": 1937,
+    "lat": 37.8199,
+    "lng": -122.4783,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/GoldenGateBridge-001.jpg/800px-GoldenGateBridge-001.jpg"
+  },
+  {
+    "id": 8,
+    "title": "Proclamation de la République populaire de Chine",
+    "description": "Mao Zedong proclame la République populaire de Chine le 1er octobre 1949 depuis la place Tian'anmen à Pékin.",
+    "year": 1949,
+    "lat": 39.9087,
+    "lng": 116.3975,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Mao_proclaiming_the_establishment_of_the_PRC_in_1949.jpg/800px-Mao_proclaiming_the_establishment_of_the_PRC_in_1949.jpg"
+  },
+  {
+    "id": 9,
+    "title": "Apollo 11 - Premier pas sur la Lune",
+    "description": "Buzz Aldrin sur la surface lunaire, photographié par Neil Armstrong lors de la mission Apollo 11 le 20 juillet 1969.",
+    "year": 1969,
+    "lat": 28.5721,
+    "lng": -80.648,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Aldrin_Apollo_11_original.jpg/800px-Aldrin_Apollo_11_original.jpg"
+  },
+  {
+    "id": 10,
+    "title": "Construction du Mur de Berlin",
+    "description": "Des soldats est-allemands érigent le Mur de Berlin en août 1961, divisant la ville en deux pour 28 ans.",
+    "year": 1961,
+    "lat": 52.5163,
+    "lng": 13.3777,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Berlinermauer.jpg/800px-Berlinermauer.jpg"
+  },
+  {
+    "id": 11,
+    "title": "Machu Picchu",
+    "description": "La cité inca du Machu Picchu au Pérou, redécouverte par Hiram Bingham en 1911.",
+    "year": 1912,
+    "lat": -13.1631,
+    "lng": -72.545,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Machu_Picchu%2C_Peru.jpg/800px-Machu_Picchu%2C_Peru.jpg"
+  },
+  {
+    "id": 12,
+    "title": "Grande Muraille de Chine",
+    "description": "La Grande Muraille de Chine, l'une des plus grandes constructions humaines, photographiée au début du XXe siècle.",
+    "year": 1907,
+    "lat": 40.4319,
+    "lng": 116.5704,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/800px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg"
+  },
+  {
+    "id": 13,
+    "title": "Tsar Bomba",
+    "description": "L'explosion de la Tsar Bomba, la plus puissante bombe nucléaire jamais testée, sur l'archipel de Nouvelle-Zemble en 1961.",
+    "year": 1961,
+    "lat": 73.482,
+    "lng": 54.5854,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Tsar_Bomba_Mushroom_Cloud.jpg/800px-Tsar_Bomba_Mushroom_Cloud.jpg"
+  },
+  {
+    "id": 14,
+    "title": "Parthénon d'Athènes",
+    "description": "Le Parthénon sur l'Acropole d'Athènes, temple dédié à la déesse Athéna, symbole de la Grèce antique.",
+    "year": 1865,
+    "lat": 37.9715,
+    "lng": 23.7267,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Parthenon_in_Athens.jpg/800px-The_Parthenon_in_Athens.jpg"
+  },
+  {
+    "id": 15,
+    "title": "Porte de Brandebourg",
+    "description": "La Porte de Brandebourg à Berlin, photographiée en 1855, symbole de l'unité allemande.",
+    "year": 1855,
+    "lat": 52.5163,
+    "lng": 13.3777,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Brandenburger_Tor_abends.jpg/800px-Brandenburger_Tor_abends.jpg"
+  }
+]
