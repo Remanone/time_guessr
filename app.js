@@ -1,6 +1,5 @@
 // === State ===
 const state = {
-  allRounds: [],
   rounds: [],
   currentRound: 0,
   totalScore: 0,
@@ -26,19 +25,11 @@ let resultMap = null;
 let guessMarker = null;
 
 // === Init ===
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch('rounds.json');
-    state.allRounds = await res.json();
-  } catch (e) {
-    console.error('Erreur chargement rounds.json:', e);
-    return;
-  }
-
+document.addEventListener('DOMContentLoaded', () => {
   $('#btn-play').addEventListener('click', startGame);
   $('#btn-submit').addEventListener('click', submitGuess);
   $('#btn-next').addEventListener('click', nextRound);
-  $('#btn-replay').addEventListener('click', startGame);
+  $('#btn-replay').addEventListener('click', () => { window.location.reload(); });
 
   initTimeline();
 });
@@ -47,9 +38,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showScreen(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
-  // Re-trigger animation
   screens[name].style.animation = 'none';
-  screens[name].offsetHeight; // force reflow
+  screens[name].offsetHeight;
   screens[name].style.animation = '';
 }
 
@@ -58,10 +48,8 @@ function startGame() {
   state.currentRound = 0;
   state.totalScore = 0;
   state.results = [];
-
-  // Pick 5 random rounds
-  const shuffled = [...state.allRounds].sort(() => Math.random() - 0.5);
-  state.rounds = shuffled.slice(0, 5);
+  // Les 5 rounds sont deja selectionnes par PHP
+  state.rounds = ROUNDS_DATA;
 
   showScreen('round');
   loadRound();
@@ -70,22 +58,18 @@ function startGame() {
 function loadRound() {
   const round = state.rounds[state.currentRound];
 
-  // Reset state
   state.guessLatLng = null;
   state.guessYear = 1900;
   state.mapPlaced = false;
   state.yearPicked = false;
   updateSubmitBtn();
 
-  // Update UI
   $('#round-indicator').textContent = `Round ${state.currentRound + 1}/5`;
   $('#round-score').textContent = `Score: ${state.totalScore}`;
   $('#round-photo').src = round.image;
 
-  // Reset timeline
   setTimelineYear(1900);
 
-  // Init or reset map
   if (gameMap) {
     gameMap.remove();
   }
@@ -124,7 +108,6 @@ function loadRound() {
     updateSubmitBtn();
   });
 
-  // Force map resize
   setTimeout(() => gameMap.invalidateSize(), 100);
 }
 
@@ -135,7 +118,6 @@ function updateSubmitBtn() {
 function submitGuess() {
   const round = state.rounds[state.currentRound];
 
-  // Calculate scores
   const distKm = haversineDistance(
     state.guessLatLng.lat, state.guessLatLng.lng,
     round.lat, round.lng
@@ -172,7 +154,6 @@ function showResult(result) {
   $('#result-location-pts').textContent = `+${result.locationScore} pts`;
   $('#result-date-pts').textContent = `+${result.dateScore} pts`;
 
-  // Animate total
   const totalEl = $('#result-total');
   totalEl.textContent = '0';
   totalEl.classList.remove('score-animated');
@@ -180,52 +161,36 @@ function showResult(result) {
   totalEl.classList.add('score-animated');
   animateNumber(totalEl, 0, result.totalRoundScore, 800);
 
-  // Update button text
   if (state.currentRound >= 4) {
-    $('#btn-next').textContent = 'Voir le resultat final';
+    $('#btn-next').textContent = 'Voir le résultat final';
   } else {
     $('#btn-next').textContent = 'Round suivant';
   }
 
-  // Init result map
   if (resultMap) {
     resultMap.remove();
   }
 
   setTimeout(() => {
-    resultMap = L.map('result-map', {
-      zoomControl: true
-    });
+    resultMap = L.map('result-map', { zoomControl: true });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap'
     }).addTo(resultMap);
 
-    // Guess marker (red)
-    const guessM = L.marker([result.guessLatLng.lat, result.guessLatLng.lng], {
-      icon: L.divIcon({
-        className: 'marker-guess',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
-      })
-    }).addTo(resultMap).bindPopup('Votre reponse');
+    L.marker([result.guessLatLng.lat, result.guessLatLng.lng], {
+      icon: L.divIcon({ className: 'marker-guess', iconSize: [20, 20], iconAnchor: [10, 10] })
+    }).addTo(resultMap).bindPopup('Votre réponse');
 
-    // Answer marker (green)
-    const answerM = L.marker([result.round.lat, result.round.lng], {
-      icon: L.divIcon({
-        className: 'marker-answer',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
-      })
+    L.marker([result.round.lat, result.round.lng], {
+      icon: L.divIcon({ className: 'marker-answer', iconSize: [20, 20], iconAnchor: [10, 10] })
     }).addTo(resultMap).bindPopup(result.round.title);
 
-    // Dashed line
     L.polyline(
       [[result.guessLatLng.lat, result.guessLatLng.lng], [result.round.lat, result.round.lng]],
       { color: '#ffffff40', dashArray: '8, 8', weight: 2 }
     ).addTo(resultMap);
 
-    // Fit bounds
     const bounds = L.latLngBounds(
       [result.guessLatLng.lat, result.guessLatLng.lng],
       [result.round.lat, result.round.lng]
@@ -247,7 +212,6 @@ function nextRound() {
 function showSummary() {
   showScreen('summary');
 
-  // Animate score
   const scoreEl = $('#summary-score');
   scoreEl.textContent = '0';
   scoreEl.classList.remove('score-animated');
@@ -255,11 +219,9 @@ function showSummary() {
   scoreEl.classList.add('score-animated');
   animateNumber(scoreEl, 0, state.totalScore, 1200);
 
-  // Tier
   const tier = getTier(state.totalScore);
   $('#summary-tier').textContent = tier;
 
-  // Table
   const tbody = $('#summary-table tbody');
   tbody.innerHTML = '';
   state.results.forEach((r, i) => {
@@ -276,7 +238,6 @@ function showSummary() {
 }
 
 // === Timeline ===
-// Non-linear scale segments: [startYear, endYear, widthFraction]
 const SEGMENTS = [
   [-3000, -500, 0.10],
   [-500, 500, 0.10],
@@ -350,16 +311,11 @@ function initTimeline() {
     if (dragging) handlePointer(e);
   });
 
-  track.addEventListener('pointerup', () => {
-    dragging = false;
-  });
-
-  track.addEventListener('pointercancel', () => {
-    dragging = false;
-  });
+  track.addEventListener('pointerup', () => { dragging = false; });
+  track.addEventListener('pointercancel', () => { dragging = false; });
 }
 
-// === Math / Utils ===
+// === Utils ===
 function haversineDistance(lat1, lng1, lat2, lng2) {
   const R = 6371;
   const toRad = (d) => d * Math.PI / 180;
@@ -384,8 +340,8 @@ function formatYearDiff(diff) {
 }
 
 function getTier(score) {
-  if (score >= 9000) return 'Historien Legendaire';
-  if (score >= 7500) return 'Maitre du Temps';
+  if (score >= 9000) return 'Historien Légendaire';
+  if (score >= 7500) return 'Maître du Temps';
   if (score >= 5000) return 'Voyageur Temporel';
   if (score >= 3000) return 'Explorateur';
   if (score >= 1500) return 'Novice Curieux';
@@ -397,7 +353,6 @@ function animateNumber(el, from, to, duration) {
   function tick(now) {
     const elapsed = now - start;
     const progress = Math.min(elapsed / duration, 1);
-    // Ease out cubic
     const eased = 1 - Math.pow(1 - progress, 3);
     el.textContent = Math.round(from + (to - from) * eased).toLocaleString('fr-FR');
     if (progress < 1) requestAnimationFrame(tick);
