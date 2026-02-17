@@ -80,6 +80,7 @@ $roundsJson = json_encode($rounds, JSON_UNESCAPED_UNICODE);
 
       <div class="deco-row"><div class="deco-line"></div><span class="deco-diamond">&#9670;</span><div class="deco-line"></div></div>
     </div>
+    <a href="admin.php" class="btn-admin" title="Panneau d'administrateur">&#9881; Admin</a>
     <button id="sound-toggle" class="sound-toggle" title="Sons">&#9835;</button>
   </div>
 
